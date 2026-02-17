@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "data-governance"
+version = "0.1.0"
+description = "Agent-oriented data governance framework for AI knowledge bases"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Yuhamixli", email = "yh-c@hotmail.com" },
+]
+keywords = ["data-governance", "ai-agent", "knowledge-base", "data-quality"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "pydantic>=2.0",
+    "chromadb>=0.4",
+    "rich>=13.0",
+    "click>=8.0",
+    "xxhash>=3.0",
+    "numpy>=1.24",
+    "tiktoken>=0.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "pytest-cov>=4.0",
+    "ruff>=0.1",
+]
+all = [
+    "sentence-transformers>=2.0",
+    "openai>=1.0",
+]
+
+[project.scripts]
+data-governance = "data_governance.api.cli:main"
+dg = "data_governance.api.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/data_governance"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
