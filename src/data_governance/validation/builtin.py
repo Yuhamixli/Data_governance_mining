@@ -13,7 +13,7 @@ class BuiltinRules:
     """Factory for built-in validation rule sets.
 
     Provides pre-configured rules for knowledge base documents, chunks,
-    chat history, and memory files — tailored for nanobot's data types.
+    chat history, and memory files — tailored for xnobot's data types.
     """
 
     @staticmethod

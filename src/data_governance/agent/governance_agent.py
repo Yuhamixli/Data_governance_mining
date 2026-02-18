@@ -46,8 +46,8 @@ class GovernanceAgent:
 
     Usage:
         agent = GovernanceAgent(
-            workspace_path="~/.nanobot/workspace",
-            chromadb_path="~/.nanobot/workspace/knowledge_db",
+            workspace_path="~/.xnobot/workspace",
+            chromadb_path="~/.xnobot/workspace/knowledge_db",
         )
 
         # Full autonomous cycle
@@ -64,7 +64,7 @@ class GovernanceAgent:
         self,
         workspace_path: str | Path | None = None,
         chromadb_path: str | Path | None = None,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
         config: GovernanceConfig | None = None,
         memory_path: str | Path | None = None,
     ):

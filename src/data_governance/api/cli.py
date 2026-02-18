@@ -36,7 +36,7 @@ def main():
 @main.command()
 @click.option("--workspace", "-w", required=True, help="Path to the workspace directory")
 @click.option("--chromadb", "-c", default=None, help="Path to ChromaDB persist directory")
-@click.option("--collection", default="nanobot_kb", help="ChromaDB collection name")
+@click.option("--collection", default="xnobot_kb", help="ChromaDB collection name")
 @click.option("--output", "-o", default=None, help="Save report to file")
 def health(workspace: str, chromadb: str | None, collection: str, output: str | None):
     """Run comprehensive health check on the knowledge base."""
@@ -54,7 +54,7 @@ def health(workspace: str, chromadb: str | None, collection: str, output: str | 
 @main.command()
 @click.option("--workspace", "-w", required=True, help="Path to the workspace directory")
 @click.option("--chromadb", "-c", default=None, help="Path to ChromaDB persist directory")
-@click.option("--collection", default="nanobot_kb", help="ChromaDB collection name")
+@click.option("--collection", default="xnobot_kb", help="ChromaDB collection name")
 def profile(workspace: str, chromadb: str | None, collection: str):
     """Profile knowledge base quality."""
     facade = _create_facade(workspace, chromadb, collection)
@@ -64,7 +64,7 @@ def profile(workspace: str, chromadb: str | None, collection: str):
 
 @main.command()
 @click.option("--chromadb", "-c", required=True, help="Path to ChromaDB persist directory")
-@click.option("--collection", default="nanobot_kb", help="ChromaDB collection name")
+@click.option("--collection", default="xnobot_kb", help="ChromaDB collection name")
 @click.option("--semantic", is_flag=True, default=False, help="Include semantic dedup")
 @click.option("--execute", is_flag=True, default=False, help="Actually remove duplicates (default: dry run)")
 def dedup(chromadb: str, collection: str, semantic: bool, execute: bool):
@@ -87,7 +87,7 @@ def dedup(chromadb: str, collection: str, semantic: bool, execute: bool):
 @main.command()
 @click.option("--workspace", "-w", required=True, help="Path to the workspace directory")
 @click.option("--chromadb", "-c", default=None, help="Path to ChromaDB persist directory")
-@click.option("--collection", default="nanobot_kb", help="ChromaDB collection name")
+@click.option("--collection", default="xnobot_kb", help="ChromaDB collection name")
 @click.option(
     "--target",
     "-t",

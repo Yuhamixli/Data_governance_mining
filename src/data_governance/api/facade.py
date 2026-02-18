@@ -1,6 +1,6 @@
 """GovernanceFacade — unified high-level API for all governance operations.
 
-This is the primary integration point for nanobot and other consumers.
+This is the primary integration point for xnobot and other consumers.
 All operations are exposed through a single facade class with simple methods.
 """
 
@@ -30,7 +30,7 @@ class GovernanceFacade:
         from data_governance.api import GovernanceFacade
 
         gov = GovernanceFacade(
-            workspace_path="/path/to/nanobot/workspace",
+            workspace_path="/path/to/xnobot/workspace",
             chromadb_path="/path/to/workspace/knowledge_db",
         )
 
@@ -50,7 +50,7 @@ class GovernanceFacade:
         self,
         workspace_path: str | Path | None = None,
         chromadb_path: str | Path | None = None,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
         config: GovernanceConfig | None = None,
     ):
         self.workspace_path = Path(workspace_path) if workspace_path else Path(".")

@@ -109,7 +109,7 @@ class HashDeduplicator:
     def deduplicate_chromadb(
         self,
         collection_path: str,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
         dry_run: bool = True,
     ) -> DedupResult:
         """Find and optionally remove duplicates from a ChromaDB collection.

@@ -35,7 +35,7 @@ class CollectionProfiler:
         self,
         knowledge_dir: str | Path,
         chromadb_path: str | Path | None = None,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
     ) -> QualityReport:
         """Profile the full knowledge base: files + vector store.
 

@@ -2,7 +2,7 @@
 
 ## 设计背景
 
-### nanobot 数据流分析
+### xnobot 数据流分析
 
 ```mermaid
 graph LR
@@ -20,8 +20,8 @@ graph LR
     end
 
     subgraph Storage["存储层"]
-        KB["ChromaDB<br/>nanobot_kb"]
-        WKB["ChromaDB<br/>nanobot_kb_web_cache"]
+        KB["ChromaDB<br/>xnobot_kb"]
+        WKB["ChromaDB<br/>xnobot_kb_web_cache"]
         FS["文件系统<br/>knowledge/"]
         CHATFS["JSONL 文件<br/>chat_history/"]
         MEMFS["Markdown 文件<br/>memory/"]
@@ -111,18 +111,18 @@ graph LR
 └── .governance/alerts.json           # 告警记录
 ```
 
-### nanobot 集成方式
+### xnobot 集成方式
 
 推荐三种集成模式，可组合使用:
 
 #### 模式 A: Agent 工具集成（Agent 自主调用）
-将治理工具注册为 nanobot 的工具，让 Agent 自主调用:
+将治理工具注册为 xnobot 的工具，让 Agent 自主调用:
 - Agent 可以在摄入文档前先 `governance_profile_document` 评估质量
 - 定期通过 heartbeat 自动执行 `governance_agent_cycle`
 - 用户可以直接问 "检查知识库健康度" 来触发
 
 #### 模式 B: Pipeline 集成（事件驱动）
-在 nanobot 的数据处理管道中嵌入治理检查:
+在 xnobot 的数据处理管道中嵌入治理检查:
 - `knowledge_ingest` 后触发 `daemon.on_ingest()` 自动质检+去重+血缘
 - `knowledge_search` 前触发 `daemon.on_search()` 质量门禁
 - `heartbeat` 周期执行 `daemon.tick()` 持续守护

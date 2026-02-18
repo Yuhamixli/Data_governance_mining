@@ -6,7 +6,7 @@ Not a human-triggered cron job. An always-on daemon that:
 3. Auto-remediates within safe bounds
 4. Emits structured signals for consuming agents
 
-Designed to be embedded in nanobot's heartbeat service or run standalone.
+Designed to be embedded in xnobot's heartbeat service or run standalone.
 """
 
 from __future__ import annotations
@@ -31,12 +31,12 @@ class GovernanceDaemon:
 
     Usage as standalone:
         daemon = GovernanceDaemon(
-            workspace_path="~/.nanobot/workspace",
-            chromadb_path="~/.nanobot/workspace/knowledge_db",
+            workspace_path="~/.xnobot/workspace",
+            chromadb_path="~/.xnobot/workspace/knowledge_db",
         )
         asyncio.run(daemon.run())
 
-    Usage embedded in nanobot heartbeat:
+    Usage embedded in xnobot heartbeat:
         daemon = GovernanceDaemon(...)
 
         # In heartbeat tick:
@@ -58,7 +58,7 @@ class GovernanceDaemon:
         self,
         workspace_path: str | Path | None = None,
         chromadb_path: str | Path | None = None,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
         config: GovernanceConfig | None = None,
         check_interval_seconds: int = 3600,
         on_alert: Callable[[dict[str, Any]], None] | None = None,
@@ -117,7 +117,7 @@ class GovernanceDaemon:
         """Run a single governance cycle.
 
         Returns structured results for the consuming agent/system.
-        Call this from nanobot's heartbeat or any periodic task.
+        Call this from xnobot's heartbeat or any periodic task.
         """
         result: dict[str, Any] = {
             "timestamp": datetime.now().isoformat(),

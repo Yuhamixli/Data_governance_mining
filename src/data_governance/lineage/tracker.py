@@ -28,7 +28,7 @@ class LineageTracker:
         self,
         source_path: str,
         chunk_ids: list[str],
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
         metadata: dict[str, Any] | None = None,
     ) -> None:
         """Record the lineage of a document ingestion.
@@ -86,7 +86,7 @@ class LineageTracker:
         self,
         url: str,
         cache_path: str,
-        collection_name: str = "nanobot_kb_web_cache",
+        collection_name: str = "xnobot_kb_web_cache",
     ) -> None:
         """Record lineage for web cache data.
 

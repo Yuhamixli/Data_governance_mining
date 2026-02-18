@@ -4,9 +4,9 @@ Philosophy: Every tool output is structured JSON that an agent can parse,
 reason about, and act on. No pretty-printing, no markdown — pure machine
 signal. The agent decides how to present information to humans if needed.
 
-These tools follow the nanobot tool pattern: name, description, parameters
+These tools follow the xnobot tool pattern: name, description, parameters
 schema, and an execute function. The GovernanceToolkit generates tool
-definitions that can be directly registered with nanobot's tool registry.
+definitions that can be directly registered with xnobot's tool registry.
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from data_governance.protocol.quality_embed import QualityEmbedder
 from data_governance.daemon.monitor import GovernanceDaemon
 
 
-# Tool definitions for nanobot's tool registry
+# Tool definitions for xnobot's tool registry
 TOOL_DEFINITIONS: list[dict[str, Any]] = [
     {
         "name": "governance_agent_cycle",
@@ -212,7 +212,7 @@ class GovernanceToolkit:
     All outputs are structured JSON — designed for machine reasoning,
     not human reading. The consuming agent decides presentation.
 
-    Usage in nanobot:
+    Usage in xnobot:
         toolkit = GovernanceToolkit(workspace_path=..., chromadb_path=...)
 
         # Register tools
@@ -228,7 +228,7 @@ class GovernanceToolkit:
         self,
         workspace_path: str | None = None,
         chromadb_path: str | None = None,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
     ):
         self.facade = GovernanceFacade(
             workspace_path=workspace_path,

@@ -186,7 +186,7 @@ class ValidationEngine:
     def validate_chromadb_collection(
         self,
         collection_path: str,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
     ) -> list[ValidationResult]:
         """Validate a ChromaDB collection's chunks.
 

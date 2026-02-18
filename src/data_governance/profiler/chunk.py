@@ -159,7 +159,7 @@ class ChunkProfiler:
         )
 
     def profile_chromadb_collection(
-        self, collection_path: str, collection_name: str = "nanobot_kb"
+        self, collection_path: str, collection_name: str = "xnobot_kb"
     ) -> QualityReport:
         """Profile a ChromaDB collection directly.
 

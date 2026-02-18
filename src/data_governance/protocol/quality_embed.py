@@ -54,7 +54,7 @@ class QualityEmbedder:
     def embed_quality_scores(
         self,
         collection_path: str,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
         batch_size: int = 100,
     ) -> dict[str, Any]:
         """Compute and embed quality scores into all chunks of a collection.
@@ -151,7 +151,7 @@ class QualityEmbedder:
     def get_quality_summary(
         self,
         collection_path: str,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
     ) -> dict[str, Any]:
         """Get aggregate quality statistics from embedded metadata.
 

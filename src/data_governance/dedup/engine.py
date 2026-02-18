@@ -109,7 +109,7 @@ class DedupEngine:
     def dedup_chromadb_collection(
         self,
         collection_path: str,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
         include_semantic: bool = True,
         dry_run: bool = True,
     ) -> FullDedupReport:

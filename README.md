@@ -1,6 +1,6 @@
 # Data Governance for AI Agents
 
-面向 AI Agent 的数据治理框架，为 [nanobot](https://github.com/user/nanobot) 等 AI 助手提供知识库数据质量管理能力。
+面向 AI Agent 的数据治理框架，为 [xnobot](https://github.com/user/xnobot) 等 AI 助手提供知识库数据质量管理能力。
 
 ## 为什么需要数据治理？
 
@@ -61,8 +61,8 @@ AI 助手的知识库会随时间不断累积数据（文档、网页缓存、�
 from data_governance.api import GovernanceFacade
 
 gov = GovernanceFacade(
-    workspace_path="~/.nanobot/workspace",
-    chromadb_path="~/.nanobot/workspace/knowledge_db",
+    workspace_path="~/.xnobot/workspace",
+    chromadb_path="~/.xnobot/workspace/knowledge_db",
 )
 
 # 整体画像 — 返回 QualityReport，支持 .to_summary() 人读 / .model_dump() 机读
@@ -176,8 +176,8 @@ data = health.to_dict()
 from data_governance.agent import GovernanceAgent
 
 agent = GovernanceAgent(
-    workspace_path="~/.nanobot/workspace",
-    chromadb_path="~/.nanobot/workspace/knowledge_db",
+    workspace_path="~/.xnobot/workspace",
+    chromadb_path="~/.xnobot/workspace/knowledge_db",
 )
 
 # 完整自主循环
@@ -201,19 +201,19 @@ results = agent.execute_plan(plan, auto_only=True)
 
 ### GovernanceDaemon — 持续守护进程
 
-可嵌入 nanobot heartbeat 的后台守护者，支持事件驱动：
+可嵌入 xnobot heartbeat 的后台守护者，支持事件驱动：
 
 ```python
 from data_governance.daemon import GovernanceDaemon
 
 daemon = GovernanceDaemon(
-    workspace_path="~/.nanobot/workspace",
-    chromadb_path="~/.nanobot/workspace/knowledge_db",
+    workspace_path="~/.xnobot/workspace",
+    chromadb_path="~/.xnobot/workspace/knowledge_db",
     check_interval_seconds=3600,          # 每小时检查一次
     on_alert=lambda alert: notify(alert), # 告警回调（可通知人类）
 )
 
-# 嵌入 nanobot heartbeat
+# 嵌入 xnobot heartbeat
 result = daemon.tick()
 
 # 事件钩子：文档摄入后自动质检 + 去重 + 血缘记录
@@ -234,7 +234,7 @@ from data_governance.protocol import QualityEmbedder, DataPassport, PassportRegi
 
 # 为所有 chunk 嵌入质量分数到 ChromaDB metadata
 embedder = QualityEmbedder()
-embedder.embed_quality_scores(chromadb_path, "nanobot_kb")
+embedder.embed_quality_scores(chromadb_path, "xnobot_kb")
 # 之后每个 chunk 的 metadata 包含:
 # quality_score, freshness_score, content_hash, is_quarantined, governance_ts
 
@@ -264,9 +264,9 @@ passport.assess(quality_score=0.85, freshness_score=0.9)
 from data_governance.api import GovernanceFacade
 
 gov = GovernanceFacade(
-    workspace_path="~/.nanobot/workspace",
-    chromadb_path="~/.nanobot/workspace/knowledge_db",
-    collection_name="nanobot_kb",
+    workspace_path="~/.xnobot/workspace",
+    chromadb_path="~/.xnobot/workspace/knowledge_db",
+    collection_name="xnobot_kb",
 )
 
 # 综合健康检查
@@ -287,30 +287,30 @@ gov.get_lineage("file:doc.md")
 
 ```bash
 # 综合健康检查（输出 Markdown 报告）
-dg health -w ~/.nanobot/workspace -c ~/.nanobot/workspace/knowledge_db
+dg health -w ~/.xnobot/workspace -c ~/.xnobot/workspace/knowledge_db
 
 # 查找重复（默认 dry run，安全查看）
-dg dedup -c ~/.nanobot/workspace/knowledge_db
+dg dedup -c ~/.xnobot/workspace/knowledge_db
 
 # 确认后执行去重
-dg dedup -c ~/.nanobot/workspace/knowledge_db --execute
+dg dedup -c ~/.xnobot/workspace/knowledge_db --execute
 
 # 校验全部数据资产
-dg validate -w ~/.nanobot/workspace -c ~/.nanobot/workspace/knowledge_db -t all
+dg validate -w ~/.xnobot/workspace -c ~/.xnobot/workspace/knowledge_db -t all
 
 # 新鲜度检查
-dg freshness -w ~/.nanobot/workspace
+dg freshness -w ~/.xnobot/workspace
 
 # 查看活跃告警
-dg alerts -w ~/.nanobot/workspace
+dg alerts -w ~/.xnobot/workspace
 
 # 单文档质量评估
 dg profile-doc path/to/document.md
 ```
 
-### Agent 工具（nanobot 注册）
+### Agent 工具（xnobot 注册）
 
-11 个工具可直接注册到 nanobot 的 tool registry，Agent 自主调用：
+11 个工具可直接注册到 xnobot 的 tool registry，Agent 自主调用：
 
 ```python
 from data_governance.api.tools import GovernanceToolkit
@@ -344,11 +344,11 @@ result = toolkit.execute("governance_validate", {"target": "all"})
 | `governance_get_alerts` | 获取告警 | 管理员巡检 |
 | `governance_get_lineage` | 数据血缘查询 | 追踪数据来源 |
 
-## nanobot 集成指南
+## xnobot 集成指南
 
 ### 方案 A：Heartbeat 集成（推荐）
 
-在 nanobot 的 heartbeat 中嵌入持续治理：
+在 xnobot 的 heartbeat 中嵌入持续治理：
 
 ```python
 from data_governance.daemon import GovernanceDaemon
@@ -450,7 +450,7 @@ src/data_governance/
 2. **AI 自主 + 人类可控**: Agent 能自动运行，但人类可以随时审查、干预、否决
 3. **声明式**: 校验规则、新鲜度策略均为声明式定义，易于理解和扩展
 4. **渐进式**: 可单独使用任一模块，也可通过 GovernanceAgent 全量自动运行
-5. **nanobot 适配**: 直接支持 ChromaDB、JSONL 聊天记录、Markdown 记忆文件等 nanobot 数据格式
+5. **xnobot 适配**: 直接支持 ChromaDB、JSONL 聊天记录、Markdown 记忆文件等 xnobot 数据格式
 6. **双通道输出**: 每个操作同时产出人可读（Markdown/Summary）和机器可读（JSON/Dict）两种格式
 
 ## 与企业级方案的对比

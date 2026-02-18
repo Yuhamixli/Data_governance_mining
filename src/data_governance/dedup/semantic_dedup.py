@@ -102,7 +102,7 @@ class SemanticDeduplicator:
     def find_near_duplicates_in_chromadb(
         self,
         collection_path: str,
-        collection_name: str = "nanobot_kb",
+        collection_name: str = "xnobot_kb",
         threshold: float | None = None,
     ) -> DedupResult:
         """Find near-duplicates in a ChromaDB collection using stored embeddings.
