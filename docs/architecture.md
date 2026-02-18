@@ -1,4 +1,4 @@
-# Architecture: Agent-Oriented Data Governance
+# Architecture: AI-First, Human-Friendly Data Governance
 
 ## 设计背景
 
@@ -63,30 +63,31 @@ graph LR
 
 ```
 ┌──────────────────────────────────────────────┐
-│              Agent API Layer                  │
-│  ┌───────────────┐ ┌──────┐ ┌─────────────┐ │
-│  │GovernanceToolkit│ │ CLI  │ │GovernanceFacade│
-│  │  (nanobot tool) │ │      │ │ (Python API) │ │
-│  └───────────────┘ └──────┘ └─────────────┘ │
+│        Human Interface (人类介入层)            │
+│  CLI 命令行 │ Markdown 报告 │ 审计日志 │ 告警 │
 ├──────────────────────────────────────────────┤
-│              Governance Engine                │
-│  ┌─────────┐ ┌─────┐ ┌──────────┐ ┌───────┐│
-│  │Profiler │ │Dedup│ │Validation│ │Fresh- ││
-│  │         │ │     │ │          │ │ness   ││
-│  └─────────┘ └─────┘ └──────────┘ └───────┘│
-│  ┌─────────┐ ┌──────────┐                   │
-│  │Lineage  │ │Reporter  │                   │
-│  │         │ │+ Alerts  │                   │
-│  └─────────┘ └──────────┘                   │
+│        Agent API Layer (Agent 接口层)         │
+│  GovernanceToolkit │ GovernanceFacade │ JSON  │
 ├──────────────────────────────────────────────┤
-│              Core Models                      │
-│  DataAsset, QualityReport, ValidationResult  │
-│  LineageGraph, GovernanceConfig              │
+│        Autonomous Layer (自主治理层)           │
+│  GovernanceAgent │ GovernanceDaemon           │
+│  DataPassport    │ QualityEmbedder            │
 ├──────────────────────────────────────────────┤
-│              Data Sources                     │
+│        Governance Engine (治理引擎层)          │
+│  Profiler │ Dedup │ Validation │ Freshness    │
+│  Lineage  │ Reporter + Alerts                │
+├──────────────────────────────────────────────┤
+│        Core Models (核心模型层)                │
+│  DataAsset │ QualityReport │ ValidationResult │
+│  LineageGraph │ GovernanceConfig │ Decision   │
+├──────────────────────────────────────────────┤
+│        Data Sources (数据源层)                 │
 │  ChromaDB  │  Files  │  JSONL  │  Markdown   │
 └──────────────────────────────────────────────┘
 ```
+
+关键设计：人类介入层在最顶层，确保所有自主操作对人类透明可审查。
+自主治理层在中间，可以独立运行，也可以在人类监督下运行。
 
 ### 治理流水线
 
@@ -112,20 +113,27 @@ graph LR
 
 ### nanobot 集成方式
 
-推荐两种集成模式:
+推荐三种集成模式，可组合使用:
 
-#### 模式 A: Agent 工具集成
+#### 模式 A: Agent 工具集成（Agent 自主调用）
 将治理工具注册为 nanobot 的工具，让 Agent 自主调用:
 - Agent 可以在摄入文档前先 `governance_profile_document` 评估质量
-- 定期通过 heartbeat 自动执行 `governance_health_check`
+- 定期通过 heartbeat 自动执行 `governance_agent_cycle`
 - 用户可以直接问 "检查知识库健康度" 来触发
 
-#### 模式 B: Pipeline 集成
+#### 模式 B: Pipeline 集成（事件驱动）
 在 nanobot 的数据处理管道中嵌入治理检查:
-- `knowledge_ingest` 前执行文档校验
-- `knowledge_ingest` 后触发去重扫描
-- `heartbeat` 周期执行健康检查
-- Web 缓存写入时记录血缘
+- `knowledge_ingest` 后触发 `daemon.on_ingest()` 自动质检+去重+血缘
+- `knowledge_search` 前触发 `daemon.on_search()` 质量门禁
+- `heartbeat` 周期执行 `daemon.tick()` 持续守护
+- Web 缓存写入时触发 `daemon.on_web_cache()` 记录血缘
+
+#### 模式 C: 人工巡检（CLI / 报告）
+运维人员通过 CLI 定期巡检:
+- `dg health` 查看健康报告
+- `dg validate` 校验数据质量
+- `dg dedup` 查看重复情况（审查后加 `--execute` 删除）
+- `dg alerts` 查看告警
 
 ## 与企业级方案的对比
 
